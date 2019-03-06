@@ -219,6 +219,16 @@ open class BTNavigationDropdownMenu: UIView {
             self.configuration.shouldChangeTitleText = value
         }
     }
+    
+    // The boolean value that decides if checkmark should be displayed in selected item
+    open var shouldDisplayCheckmark: Bool! {
+        get {
+            return self.configuration.shouldDisplayCheckmark
+        }
+        set(value) {
+            self.configuration.shouldDisplayCheckmark = value
+        }
+    }
 
     open var didSelectItemAtIndexHandler: ((_ indexPath: Int) -> ())?
     open var isShown: Bool!

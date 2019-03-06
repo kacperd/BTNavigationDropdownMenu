@@ -23,11 +23,14 @@
 
 import UIKit
 
+public typealias EditActionsForRow = (UITableView, IndexPath) -> [UITableViewRowAction]
+
 class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // Public properties
     var configuration: BTConfiguration!
     var selectRowAtIndexPathHandler: ((_ indexPath: Int) -> ())?
+    var editActionsForRow: EditActionsForRow?
     
     // Private properties
     var items: [String] = []
@@ -54,9 +57,11 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         self.tableFooterView = UIView(frame: CGRect.zero)
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let hitView = super.hitTest(point, with: event) , hitView.isKind(of: BTTableCellContentView.self) {
-            return hitView
+     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let hitView = super.hitTest(point, with: event) {
+            if !hitView.isKind(of: BTTableView.self)  {
+                return hitView
+            }
         }
         return nil;
     }
@@ -104,5 +109,9 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
             cell.backgroundColor = self.configuration.cellBackgroundColor
             cell.contentView.backgroundColor = ((indexPath as NSIndexPath).row == selectedIndexPath) ? self.configuration.cellSelectionColor : self.configuration.cellBackgroundColor
         }
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        return editActionsForRow?(tableView, indexPath)
     }
 }

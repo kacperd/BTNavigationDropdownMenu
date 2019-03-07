@@ -242,6 +242,12 @@ open class BTNavigationDropdownMenu: UIView {
         }
     }
     
+    private var tableFooterHeight: CGFloat {
+        get {
+            return self.tableFooterView?.frame.height ?? 0.0
+        }
+    }
+    
     // Closure for dynamically generating editing actons in menu items
     open var editActionsForRow: EditActionsForRow? {
         didSet {
@@ -479,8 +485,7 @@ open class BTNavigationDropdownMenu: UIView {
         self.backgroundView.alpha = 0
         
         // Animation
-        let footerHeight = self.tableFooterView?.frame.height ?? 0
-        self.tableView.frame.origin.y = -CGFloat(self.items.count) * self.configuration.cellHeight - footerHeight - 300
+        self.tableView.frame.origin.y = -CGFloat(self.items.count) * self.configuration.cellHeight - tableFooterHeight - 300
         
         // Reload data to dismiss highlight color of selected cell
         self.tableView.reloadData()
@@ -520,17 +525,18 @@ open class BTNavigationDropdownMenu: UIView {
         }, completion: nil
         )
         
+        let destY = -CGFloat(self.items.count) * self.configuration.cellHeight - tableFooterHeight - 300
+        
         // Animation
         UIView.animate(
             withDuration: self.configuration.animationDuration,
             delay: 0,
             options: UIView.AnimationOptions(),
             animations: {
-                let footerHeight = self.tableFooterView?.frame.height ?? 0
-                self.tableView.frame.origin.y = -CGFloat(self.items.count) * self.configuration.cellHeight - footerHeight - 300
+                self.tableView.frame.origin.y = destY
                 self.backgroundView.alpha = 0 },
             completion: { _ in
-                if self.isShown == false && self.tableView.frame.origin.y == -CGFloat(self.items.count) * self.configuration.cellHeight - 300 {
+                if self.isShown == false && self.tableView.frame.origin.y == destY {
                     self.menuWrapper.isHidden = true
                 }
         })

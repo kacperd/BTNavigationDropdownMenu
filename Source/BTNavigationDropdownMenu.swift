@@ -497,7 +497,7 @@ open class BTNavigationDropdownMenu: UIView {
             delay: 0,
             usingSpringWithDamping: 0.7,
             initialSpringVelocity: 0.5,
-            options: [],
+            options: [ .allowUserInteraction ],
             animations: {
                 self.tableView.frame.origin.y = CGFloat(-300)
                 self.backgroundView.alpha = self.configuration.maskBackgroundOpacity },

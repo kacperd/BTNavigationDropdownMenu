@@ -525,7 +525,7 @@ open class BTNavigationDropdownMenu: UIView {
         }, completion: nil
         )
         
-        let destY = -CGFloat(self.items.count) * self.configuration.cellHeight - tableFooterHeight - 300
+        let destY = -CGFloat(self.tableView.items.count) * self.configuration.cellHeight - tableFooterHeight - 300
         
         // Animation
         UIView.animate(

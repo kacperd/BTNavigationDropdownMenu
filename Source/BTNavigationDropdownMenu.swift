@@ -326,7 +326,11 @@ open class BTNavigationDropdownMenu: UIView {
             titleToDisplay = title
         }
         
-        titleSize = (titleToDisplay as NSString).size(withAttributes: [NSAttributedString.Key.font:self.configuration.navigationBarTitleFont])
+        titleSize = (titleToDisplay as NSString).size(
+            withAttributes: [
+                NSAttributedString.Key.font: configuration.navigationBarTitleFont as Any
+            ]
+        )
         
         // Set frame
         let frame = CGRect(x: 0, y: 0, width: titleSize.width + (self.configuration.arrowPadding + self.configuration.arrowImage.size.width)*2, height: self.navigationController!.navigationBar.frame.height)
@@ -452,6 +456,8 @@ open class BTNavigationDropdownMenu: UIView {
         if self.shouldChangeTitleText! {
             self.setMenuTitle("\(self.tableView.items[index])")
         }
+        
+        self.layoutSubviews()
     }
     
     func setupDefaultConfiguration() {
